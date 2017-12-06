@@ -1,20 +1,30 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>Quotes</title>
+    </head>
+    <body>
+        <h1>Add a Quote</h1>
+        <form #quoteForm="ngForm" (submit)="createQuote()">
+            <textarea name="content" minlength="4" #content="ngModel" required [(ngModel)]="quote.content"></textarea>
+            <p>Author <input type="text" minlength="1" #author="ngModel" required name="author" [(ngModel)]="quote.author"/></p>
+            <input type="submit" [disabled]="!quoteForm.form.valid" value="Add your quote!" />
+        </form>
+        <h1>Quotes list</h1>
+        <div class="quote" *ngFor="let q of quotes; let idx = index">
+            <div class="quote_body">
+                <p>"{{ q.content }}"</p>
+                <p>-{{ q.author }}</p>
+            </div>
+            <span *ngIf="q.votes >= 0"> +{{ q.votes }} </span>
+            <span *ngIf="q.votes < 0"> {{ q.votes }} </span>
+            <div class="actions">
+                <button (click)="upvote(q)" class="upvote">Vote Up</button>
+                <button (click)="downvote(q)" class="downvote">Vote Down</button>
+                <button (click)="deleteQuote(idx)" class="delete">Delete</button>
+            </div>
+        </div>
+    </body>
+</html>
